@@ -5,7 +5,7 @@ const app = express();
 const PORT = "8282";
 
 app.use(express.json());
-app.use(express.static("images"));
+app.use(express.static("static"));
 
 app.use("/videos", videos);
 

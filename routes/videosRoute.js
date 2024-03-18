@@ -30,4 +30,28 @@ router.get("/:videoID", (req, res) => {
   //should return entire object for one video.
 });
 
+router.post("/", (req, res) => {
+  console.log("Video post in process");
+  if (!req.body.id || !req.body.title || !req.body.description || !req.body.image) {
+    res.status(400).send("Error 400: Invalid post contents, please edit your submission and try again.");
+  }
+  const newVideo = {
+    id: req.body.id,
+    title: req.body.title,
+    description: req.body.description,
+    image: req.body.image,
+  };
+  const dataFile = fs.readFileSync("./data/video-details-copy.json");
+  const test = JSON.parse(dataFile);
+  test.push(newVideo);
+  fs.writeFileSync("./data/video-details-copy.json", JSON.stringify(test));
+  res.send("post accepted");
+});
+
+// POST /videos (new video upload)
+
+// POST /videos/:id/comments (new comment)
+
+// DELETE /videos/:videoId/comments/:commentId (delete existing comment)
+
 export default router;
