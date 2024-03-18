@@ -4,16 +4,22 @@
   "description": "BrainFlix Video API backend",
   "main": "server.js",
   "scripts": {
-    "test": "node --watch server.js"
+    "start": "node --watch server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicholasgcotton/BrainFlix-backend.git"
   },
   "author": "Nicholas Cotton",
+  "type": "module",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nicholasgcotton/BrainFlix-backend/issues"
   },
-  "homepage": "https://github.com/nicholasgcotton/BrainFlix-backend#readme"
+  "homepage": "https://github.com/nicholasgcotton/BrainFlix-backend#readme",
+  "dependencies": {
+    "express": "^4.18.3",
+    "fs": "^0.0.1-security",
+    "underscore": "^1.13.6"
+  }
 }
