@@ -2,7 +2,7 @@ import express from "express";
 import fs from "node:fs";
 import data from "../data/video-details.json" assert { type: "json" }; // testing entry
 import _, { map } from "underscore";
-const { v4 } = require("uuid");
+import { v4 } from "uuid";
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.get("/:videoID", (req, res) => {
 // POST /videos (new video upload)
 router.post("/", (req, res) => {
   console.log("Video post in process");
-  if (!req.body.id || !req.body.title || !req.body.description || !req.body.image) {
+  if (!req.body.title || !req.body.description || !req.body.image) {
     res.status(400).send("Error 400: Invalid post contents, please edit your submission and try again.");
   }
   const time = Date.now();

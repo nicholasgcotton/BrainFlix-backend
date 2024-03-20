@@ -1,9 +1,11 @@
 import express from "express";
 import videos from "./routes/videosRoute.js";
+import cors from "cors";
 
 const app = express();
 const PORT = "8282";
 
+app.use(cors({ origin: "http://localhost:5555" }));
 app.use(express.json());
 app.use(express.static("static"));
 
