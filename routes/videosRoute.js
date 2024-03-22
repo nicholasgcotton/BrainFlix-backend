@@ -1,6 +1,6 @@
 import express from "express";
 import fs from "node:fs";
-import data from "../data/video-details.json" assert { type: "json" }; // testing entry
+import data from "../data/video-details.json" assert { type: "json" };
 import _, { map } from "underscore";
 import { v4 } from "uuid";
 
@@ -17,7 +17,6 @@ router.get("/", (_req, res) => {
 router.get("/:videoID", (req, res) => {
   const error404 = "No video with that id exists.";
   const videoID = req.params.videoID;
-  console.log("Specific video " + videoID);
 
   const selectedVideo = data.find((e) => {
     return e.id === videoID;
@@ -31,9 +30,33 @@ router.get("/:videoID", (req, res) => {
   //should return entire object for one video.
 });
 
+router.post("/:videoID/comment", (req, res) => {
+  const videoIdTarget = req.params.videoID;
+  console.log("Comment post in progress");
+  if (!req.body.comment) {
+    res.status(400).send("Error 400: Invalid blank comment, please edit your submission and try again.");
+  }
+  const newComment = {
+    id: v4(),
+    name: "UserName",
+    comment: req.body.comment,
+    likes: 0,
+    timestamp: Date.now(),
+  };
+
+  const dataFile = fs.readFileSync("./data/video-details.json");
+  const test = JSON.parse(dataFile);
+  const selectedVideo = test.find((e) => {
+    return e.id === videoIdTarget;
+  });
+
+  selectedVideo.comments.push(newComment);
+  fs.writeFileSync("./data/video-details.json", JSON.stringify(test));
+  res.send("Post accepted.");
+});
+
 // POST /videos (new video upload)
 router.post("/", (req, res) => {
-  console.log("Video post in process");
   if (!req.body.title || !req.body.description || !req.body.image) {
     res.status(400).send("Error 400: Invalid post contents, please edit your submission and try again.");
   }
@@ -53,10 +76,10 @@ router.post("/", (req, res) => {
     timestamp: time,
     comments: [],
   };
-  const dataFile = fs.readFileSync("./data/video-details-copy.json");
+  const dataFile = fs.readFileSync("./data/video-details.json");
   const test = JSON.parse(dataFile);
   test.push(newVideo);
-  fs.writeFileSync("./data/video-details-copy.json", JSON.stringify(test));
+  fs.writeFileSync("./data/video-details.json", JSON.stringify(test));
   res.send("Post accepted.");
 });
 
