@@ -32,7 +32,6 @@ router.get("/:videoID", (req, res) => {
 
 router.post("/:videoID/comment", (req, res) => {
   const videoIdTarget = req.params.videoID;
-  console.log("Comment post in progress");
   if (!req.body.comment) {
     res.status(400).send("Error 400: Invalid blank comment, please edit your submission and try again.");
   }
